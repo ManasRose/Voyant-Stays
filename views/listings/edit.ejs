@@ -1,0 +1,73 @@
+<%- layout('/layouts/boilerplate') -%>
+<body><br><br>
+    <div class="col-8 offset-2">
+        <h3>Edit Listing</h3><br>
+<form action="/listings/<%=listings._id%>?_method=PUT" method="POST" class="needs-validation" novalidate enctype="multipart/form-data">
+
+        <div class="mb-3">
+            <label for="title" class="form-label">Title</label>
+            <input type="text" placeholder="Enter Title" name="title" class="form-control" required value="<%=listings.title%>">
+        </div>
+
+        <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <textarea placeholder="Enter Description" name="description" class="form-control" required><%=listings.description%></textarea>
+        </div>
+
+        <div class="mb-3">
+            Original Image <br>
+            <div><img src='<%=listings.image.url%>' height="200rem" style="border-radius: 10px;"></div>
+        </div>
+        <div class="mb-3">
+            <label for="image" class="form-label">Upload New Image</label>
+            <input type="file" name="image" class="form-control">
+        </div>
+
+        <div class="row">
+            <div class="mb-3 col-md-4">
+                <label for="price" class="form-label">Price</label>
+                <input type="number" placeholder="Enter Price" name="price" class="form-control" required value="<%=listings.price%>">
+            </div>
+            <div class="mb-3 col-md-8">
+                <label for="country" class="form-label">Country</label>
+                <input type="text" placeholder="Enter Country" name="country" class="form-control" required value="<%=listings.country%>">
+            </div>          
+        </div>
+
+        <div class="mb-3">
+            <label for="location" class="form-label">Location</label>
+            <input type="text" placeholder="Enter Location" name="location" class="form-control" required value="<%=listings.location%>">
+        </div>
+        <br>
+
+        <div class="mb-3">
+            <label class="form-label"><b>Update Tags</b></label>
+            <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3">
+                <% tags.forEach(tag => { %>
+                    <div class="col">
+                        <div class="form-check">
+                            <input 
+                                class="form-check-input" 
+                                type="checkbox" 
+                                name="tags" 
+                                value="<%= tag %>" 
+                                id="<%= tag %>-id"
+                                <% if (listings.tags.includes(tag)) { %>
+                                    checked
+                                <% } %>
+                            >
+                            <label class="form-check-label" for="<%= tag %>-id">
+                                <%= tag.charAt(0).toUpperCase() + tag.slice(1) %>
+                            </label>
+                        </div>
+                    </div>
+                <% }) %>
+            </div>
+        </div>
+        <br>
+        <button class="btn btn-dark">Update Listing</button>
+    </form>
+    <br>
+    </div>
+
+</body>

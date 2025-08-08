@@ -1,0 +1,77 @@
+<%- layout('/layouts/boilerplate') -%>
+<body><br><br>
+    <div class="col-8 offset-2">
+        <h3>Create Listing</h3><br>
+    <form action="/listings" method="POST" class="needs-validation" novalidate enctype="multipart/form-data">
+
+        <div class="mb-3">
+            <label for="title" class="form-label">Title</label>
+            <input type="text" placeholder="Enter Title" name="title" class="form-control" required>
+            <div class="valid-feedback">Title looks good</div>
+            <div class="invalid-feedback">Please enter valid title</div>
+        </div>
+
+        <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <textarea placeholder="Enter Description" name="description" class="form-control" required></textarea>
+            <div class="valid-feedback">Description looks good</div>
+            <div class="invalid-feedback">Please enter valid description</div>
+ 
+        </div>
+
+        <div class="mb-3">
+            <label for="image" class="form-label">Image</label>
+            <input type="file" name="image" class="form-control" placeholder="Image URL" required >
+            <div class="valid-feedback">Image looks good</div>
+        </div>
+
+        <div class="row">
+            <div class="mb-3 col-md-4">
+                <label for="price" class="form-label">Price</label>
+                <input type="number" placeholder="Enter Price" name="price" class="form-control" required>
+                <div class="valid-feedback">Price looks good</div>
+                <div class="invalid-feedback">Please enter valid price</div>
+            </div>
+
+            <div class="mb-3 col-md-8">
+                <label for="country" class="form-label">Country</label>
+                <input type="text" placeholder="Enter Country" name="country" class="form-control" required>
+                <div class="valid-feedback">Country looks good</div>
+                <div class="invalid-feedback">Please enter valid country</div>
+            </div>            
+        </div>
+        <div class="mb-3">
+            <label for="location" class="form-label">Location</label>
+            <input type="text" placeholder="Enter Location" name="location" class="form-control" required>
+            <div class="valid-feedback">Location looks good</div>
+            <div class="invalid-feedback">Please enter valid location</div>
+        </div>
+        <br>
+        <div class="mb-3">
+
+        <label class="form-label"><b>Select Tags for your Listing</b></label>
+        <p class="text-muted small">Choose the tags that best describe your place.</p>
+    
+        <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3">
+            <% tags.forEach(tag => { %>
+            <div class="col">
+                <div class="form-check">
+                    <input 
+                        class="form-check-input" 
+                        type="checkbox" 
+                        name="tags" 
+                        value="<%= tag %>" 
+                        id="<%= tag %>-id"
+                    >
+                    <label class="form-check-label" for="<%= tag %>-id">
+                        <%= tag.charAt(0).toUpperCase() + tag.slice(1) %>
+                    </label>
+                </div>
+            </div>
+            <% }) %>
+        </div>
+        <button class="btn btn-dark addListingbtn">Add Listing</button>
+    </form>
+    </div>
+
+</body>

@@ -1,0 +1,15 @@
+module.exports.TAGS = [
+    "trending",
+    "rooms",
+    "iconicCities",
+    "mountains",
+    "amazingPools",
+    "camping",
+    "farm",
+    "arctic",
+    "summer",
+    "nature",
+    "cruise",
+    "sailBoat",
+    "adventure",
+];
