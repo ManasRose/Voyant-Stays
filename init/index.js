@@ -14,7 +14,7 @@ const mbxGeocoding = require("@mapbox/mapbox-sdk/services/geocoding");
 const mapToken = process.env.MAP_TOKEN;
 const geocodingClient = mbxGeocoding({ accessToken: mapToken });
 
-const dbUrl = "mongodb://127.0.0.1:27017/VoyantStays";
+const dbUrl=process.env.ATLASDB_URL;
 
 main()
   .then(() => {
@@ -77,11 +77,13 @@ const initDB = async () => {
   // Find the user who will author all reviews
   const demoUser = await User.findOne({ username: "demo" });
   if (!demoUser) {
-    console.error("Error: Please create a user with the username 'demo' first.");
-    return; // Stop the script if the demo user doesn't exist
+    console.log("Demo user not found. Creating a new one...");
+    const newUser = new User({
+        email: "demo@gmail.com",
+        username: "demo",
+    });
+    demoUser = await User.register(newUser, "demo@123");
   }
-  console.log(`Found demo user: ${demoUser.username}`);
-
   // Loop through each listing in the source data
   for (const listingData of data) {
     // 1. Create a new Listing
