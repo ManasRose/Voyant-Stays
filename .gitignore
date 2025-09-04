@@ -1,0 +1,35 @@
+# Node modules and environment
+node_modules/
+.env
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# OS-specific files
+.DS_Store        # macOS
+Thumbs.db        # Windows
+
+# Editor / IDE settings
+.vscode/
+*.code-workspace
+
+# Build output (if applicable)
+dist/
+build/
+
+# Dependency directories (other tools)
+.bower_components/
+.cache/
+
+# Optional: Coverage and test output
+coverage/
+*.lcov
+
+# Optional: Local environment overrides
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local

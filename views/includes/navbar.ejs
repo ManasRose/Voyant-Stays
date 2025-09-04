@@ -1,0 +1,168 @@
+<nav
+  class="navbar navbar-expand-md sticky-top shadow-sm"
+  style="background-color: #ffffff; border-bottom: 2px solid #f1f1f1"
+>
+  <div class="container-fluid">
+    <!-- Brand -->
+    <a
+      class="navbar-brand d-flex align-items-center text-dark fw-bold"
+      href="/"
+    >
+      <i
+        class="fa-solid fa-earth-americas me-2"
+        style="font-size: 1.5rem !important; color: #fe424d !important"
+      ></i>
+      <span style="color: #fe424d"><b>Voyant Stays</b></span>
+    </a>
+
+    <!-- Toggler -->
+    <button
+      class="navbar-toggler border-0"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarNavAltMarkup"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Collapsible Content -->
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <!-- Left Nav Links -->
+      <div class="navbar-nav">
+        <a class="nav-link fw-semibold text-dark hover-red" href="/listings"
+          ><b>Explore</b></a
+        >
+        <a class="nav-link fw-semibold text-dark hover-red" href="/listings/new"
+          ><b>Become a Host</b></a
+        >
+      </div>
+
+      <!-- Search Bar -->
+      <form
+        action="/listings"
+        method="GET"
+        class="d-flex mx-auto my-2 my-md-0 align-items-center search"
+        role="search"
+      >
+        <input
+          class="form-control me-2 search-small"
+          type="search"
+          placeholder="Search by Country"
+          name="country"
+        />
+        <button class="btn search-btn" type="submit">
+          <i class="fa-solid fa-magnifying-glass me-1"></i>Search
+        </button>
+      </form>
+
+      <!-- Auth Buttons -->
+      <div class="navbar-nav ms-auto d-flex align-items-center gap-2">
+        <% if (!currUser) { %>
+        <a
+          class="btn btn-outline-dark btn-sm rounded-pill px-3 auth signup-btn"
+          href="/signup"
+          >Sign up</a
+        >
+        <a
+          class="btn btn-dark btn-sm rounded-pill px-3 auth login-btn"
+          href="/login"
+          >Login</a
+        >
+        <% } %> <% if (currUser) { %>
+        <a class="btn btn-sm rounded-pill px-3 auth logout-btn" href="/logout"
+          >Logout</a
+        >
+        <% } %>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- Extra Styling -->
+<style>
+  /* Hover underline effect for nav links */
+  .navbar-collapse {
+    background-color: #ffffff;
+    border-top: 1px solid #f1f1f1;
+    box-shadow: none;
+    border-radius: 0;
+    /* ✅ removed position: static !important */
+  }
+
+  .nav-link {
+    position: relative;
+    transition: color 0.3s;
+  }
+  .nav-link::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -3px;
+    width: 0;
+    height: 2px;
+    background: #fe424d;
+    transition: width 0.3s;
+  }
+  .nav-link:hover::after {
+    width: 100%;
+  }
+
+  .hover-red:hover {
+    color: #fe424d !important;
+    border-color: #fe424d !important;
+  }
+
+  /* Smaller search bar */
+
+  .search-small {
+    height: 3rem;
+    width: 100%;
+    font-size: 0.9rem;
+    padding: 4px 10px;
+    border-radius: 20px;
+  }
+
+  .search-btn {
+    height: 3rem;
+    font-size: 0.9rem;
+    padding: 0 1rem;
+    border-radius: 2rem;
+    background-color: #fe424d;
+    color: white;
+    transition: all 0.3s;
+  }
+  .search-btn:hover {
+    background-color: white;
+    color: #fe424d;
+    border: 1px solid #fe424d;
+  }
+
+  .auth {
+    padding: 0.7rem;
+    transition: all 0.3s;
+  }
+
+  .login-btn {
+    background-color: #fe424d;
+    border: none;
+    color: white;
+  }
+  .login-btn:hover {
+    background-color: white;
+    color: #fe424d;
+    border: 1px solid #fe424d;
+  }
+
+  .signup-btn,
+  .logout-btn {
+    background-color: black;
+    border: 1px solid black;
+    color: white;
+  }
+  .signup-btn:hover,
+  .logout-btn:hover {
+    border: 1px solid #fe424d;
+    background-color: white;
+    color: #fe424d;
+  }
+</style>

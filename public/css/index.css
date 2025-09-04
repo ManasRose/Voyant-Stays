@@ -1,0 +1,81 @@
+/* Filters row */
+#filters {
+  display: flex;
+  gap: 1.2rem;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+#filters::-webkit-scrollbar {
+  display: none;
+}
+
+/* Align toggle in the middle of row */
+.tax-toggle {
+  display: flex;
+  align-items: center;
+}
+.form-check {
+  margin-bottom: 0 !important;
+}
+
+/* Card styles */
+.listingCard {
+  transition: all 0.3s ease-in-out;
+  border-radius: 1rem;
+  background: #fff;
+  height: 100%;
+}
+.listingCard:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.18) !important;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+}
+.card-link {
+  text-decoration: none;
+}
+.card-link:hover .listingCard {
+  cursor: pointer;
+}
+
+.listing-img {
+  height: 15rem;
+  width: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease-in-out;
+}
+.listingCard:hover .listing-img {
+  transform: scale(1.07);
+}
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+.listingCard:hover .overlay {
+  opacity: 1;
+}
+.overlay span {
+  font-size: 0.9rem;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+.card-title {
+  font-size: 1rem;
+  line-height: 1.4;
+}
+.fw-bold {
+  font-size: 1rem;
+  color: #111;
+}
+.text-muted {
+  font-size: 0.85rem;
+}
+
+/* ⭐ Star color */
+.rating .star {
+  font-size: 1.3rem;
+  color: #fe424d !important;
+}
