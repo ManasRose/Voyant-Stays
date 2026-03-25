@@ -61,7 +61,7 @@ store.on("error", () => {
 });
 
 const sessionOptions = {
-  store: store, //session information abb atlas mein store hone wali hai
+  store: store, //session information abb atlas db mein store hone wali hai
   secret: process.env.SECRET,
   resave: false,
   saveUninitialized: true,
@@ -76,7 +76,7 @@ app.use(session(sessionOptions));
 app.use(flash());
 
 app.use(passport.initialize());
-app.use(passport.session());
+app.use(passport.session()); //Tells Passport to use Express sessions to persist login state across requests
 passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
