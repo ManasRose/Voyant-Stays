@@ -110,7 +110,7 @@ const initDB = async () => {
   const demoUser = await User.findOne({ username: "demo" });
   if (!demoUser) {
     console.error(
-      "Error: Please create a user with the username 'demo' first."
+      "Error: Please create a user with the username 'demo' first.",
     );
     return; // Stop the script if the demo user doesn't exist
   }
@@ -137,7 +137,7 @@ const initDB = async () => {
       newListing.geometry = response.body.features[0].geometry;
     } else {
       console.warn(
-        `Could not geocode: ${newListing.location}, ${newListing.country}. Skipping this listing.`
+        `Could not geocode: ${newListing.location}, ${newListing.country}. Skipping this listing.`,
       );
       continue; // Skip this listing if geocoding fails
     }
