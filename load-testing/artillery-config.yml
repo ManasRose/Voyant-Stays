@@ -1,0 +1,56 @@
+config:
+  # Point this at your deployed URL (Render/Railway/etc) or http://localhost:5000 for local testing
+  target: "http://localhost:5000"
+  phases:
+    # Ramp pattern: warm-up -> moderate load -> peak load
+    # Adjust arrivalRate / duration based on what you want to claim on your resume.
+    - duration: 30
+      arrivalRate: 5
+      name: "Warm-up"
+    - duration: 60
+      arrivalRate: 20
+      name: "Moderate load (20 users/sec)"
+    - duration: 60
+      arrivalRate: 50
+      name: "Peak load (50 users/sec)"
+  defaults:
+    headers:
+      Content-Type: "application/json"
+  plugins:
+    metrics-by-endpoint: {}
+  processor: "./processor.js"
+
+scenarios:
+  - name: "Browse listings (index page)"
+    weight: 50
+    flow:
+      - get:
+          url: "/listings"
+          expect:
+            - statusCode: 200
+
+  - name: "Filter listings by tag"
+    weight: 20
+    flow:
+      - get:
+          url: "/listings/tags/mountains"
+          expect:
+            - statusCode: 200
+
+  - name: "View single listing"
+    weight: 30
+    flow:
+      # Anchored to href="..." specifically — an earlier unanchored version
+      # occasionally matched other 24-char hex strings on the page (image
+      # IDs, etc.) instead of the actual listing card link, causing false
+      # 404s that were a test-script bug, not an app bug.
+      - get:
+          url: "/listings"
+          capture:
+            - regexp: 'href="/listings/([a-f0-9]{24})"'
+              as: "listingId"
+      - get:
+          url: "/listings/{{ listingId }}"
+          ifTrue: "listingId"
+          expect:
+            - statusCode: 200

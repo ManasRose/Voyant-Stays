@@ -1,5 +1,5 @@
 const cloudinary = require("cloudinary").v2;
-const { CloudinaryStorage } = require("multer-storage-cloudinary"); //from multer-storage-cloudinary
+const { CloudinaryStorage } = require("multer-storage-cloudinary");
 
 cloudinary.config({
   cloud_name: process.env.CLOUD_NAME,
@@ -11,7 +11,7 @@ const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: {
     folder: "Voyant-Stays DEV",
-    allowedFormat: ["png", "jpg", "jpeg"], // supports promises as well
+    allowedFormat: ["png", "jpg", "jpeg"],
   },
 });
 

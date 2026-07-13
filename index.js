@@ -9,10 +9,11 @@ const path = require("path");
 const methodOverride = require("method-override");
 const ejsmate = require("ejs-mate");
 const session = require("express-session");
-const MongoStore = require("connect-mongo"); //to implement sessions during deployment
+const MongoStore = require("connect-mongo");
 const flash = require("connect-flash");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
+const compression = require("compression");
 const ExpressErrors = require("./utils/ExpressErrors");
 const User = require("./models/user");
 
@@ -31,26 +32,30 @@ const dbUrl = process.env.ATLASDB_URL;
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.engine("ejs", ejsmate);
+
+app.use(compression());
+
 app.use(express.static(path.join(__dirname, "/public")));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 
 //2. DATABASE CONNECTION
-async function connectDB() {
-  await mongoose.connect(dbUrl);
+if (process.env.NODE_ENV !== "test") {
+  async function connectDB() {
+    await mongoose.connect(dbUrl);
+  }
+  connectDB()
+    .then(() => {
+      console.log("Connected to MongoDB");
+    })
+    .catch((err) => {
+      console.error("Error connecting to MongoDB:", err);
+    });
 }
-connectDB()
-  .then(() => {
-    console.log("Connected to MongoDB");
-  })
-  .catch((err) => {
-    console.error("Error connecting to MongoDB:", err);
-  });
 
 //3. SESSION AND AUTHENTICATION SETUP
 const store = MongoStore.create({
-  //without this, ur session info used to be stored in ur local storage
-  mongoUrl: dbUrl, //agar u want ki session info local db par store ho, to just pass localUrl
+  mongoUrl: dbUrl,
   crypto: {
     secret: process.env.SECRET,
   },
@@ -61,7 +66,7 @@ store.on("error", () => {
 });
 
 const sessionOptions = {
-  store: store, //session information abb atlas db mein store hone wali hai
+  store: store,
   secret: process.env.SECRET,
   resave: false,
   saveUninitialized: true,
@@ -76,7 +81,7 @@ app.use(session(sessionOptions));
 app.use(flash());
 
 app.use(passport.initialize());
-app.use(passport.session()); //Tells Passport to use Express sessions to persist login state across requests
+app.use(passport.session());
 passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
@@ -105,13 +110,15 @@ app.use((req, res, next) => {
   next(err);
 });
 
-//7. Error Handeling
 app.use((err, req, res, next) => {
   let { status = 500, message = "Something Went Wrong" } = err;
   res.status(status).render("error", { message });
 });
 
-//8. Server Listening
-app.listen(5000, () => {
-  console.log(`Server is running on port 5000`);
-});
+module.exports = app;
+
+if (require.main === module) {
+  app.listen(5000, () => {
+    console.log(`Server is running on port 5000`);
+  });
+}
